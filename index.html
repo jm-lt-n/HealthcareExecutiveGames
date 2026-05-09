@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Healthcare leadership simulations by Jonathan Milton. Test your instincts. Build something that holds.">
+<title>Healthcare Executive Games</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:system-ui,-apple-system,sans-serif;color:#111;background:#fff;min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+nav{border-bottom:1px solid rgba(0,0,0,.09);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:15px;font-weight:700;letter-spacing:-.2px;text-decoration:none;color:#111}
+.nav-brand span{font-weight:400;color:#666}
+
+/* HERO */
+.hero{padding:4rem 1.5rem 3rem;max-width:680px;margin:0 auto;width:100%}
+.hero h1{font-size:clamp(26px,4vw,36px);font-weight:700;letter-spacing:-.4px;line-height:1.2;margin-bottom:.75rem}
+.hero p{font-size:17px;color:#444;line-height:1.7;max-width:540px}
+
+/* GAMES GRID */
+.games-section{padding:0 1.5rem 4rem;max-width:680px;margin:0 auto;width:100%}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#999;margin-bottom:1.25rem}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.game-card{border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:1.4rem 1.5rem;text-decoration:none;color:#111;transition:all .15s;display:flex;flex-direction:column;gap:.75rem;background:#fff}
+.game-card:hover{border-color:rgba(0,0,0,.3);background:#fafafa;transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.game-tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:#f0f0ee;color:#666;width:fit-content}
+.game-tag.new{background:#DDF3EA;color:#0A5035}
+.game-title{font-size:18px;font-weight:700;letter-spacing:-.2px;line-height:1.25}
+.game-desc{font-size:13.5px;color:#555;line-height:1.65}
+.game-meta{display:flex;align-items:center;justify-content:space-between;margin-top:.25rem}
+.game-detail{font-size:12px;color:#999}
+.play-btn{font-size:13px;font-weight:600;color:#111;text-decoration:none;padding:7px 16px;border:1px solid rgba(0,0,0,.2);border-radius:7px;transition:all .13s;background:#fff}
+.play-btn:hover{background:#111;color:#fff;border-color:#111}
+
+/* COMING SOON CARD */
+.game-card.soon{opacity:.55;cursor:default;pointer-events:none}
+.game-card.soon:hover{transform:none;box-shadow:none;background:#fff;border-color:rgba(0,0,0,.12)}
+
+/* ABOUT */
+.about{border-top:1px solid rgba(0,0,0,.08);padding:3rem 1.5rem;max-width:680px;margin:0 auto;width:100%}
+.about-inner{display:flex;gap:2rem;align-items:flex-start}
+.about-text h2{font-size:18px;font-weight:700;margin-bottom:.5rem;letter-spacing:-.2px}
+.about-text p{font-size:14.5px;color:#444;line-height:1.72;margin-bottom:1rem}
+.about-links{display:flex;gap:10px;flex-wrap:wrap}
+.about-link{font-size:13px;color:#111;text-decoration:none;padding:6px 14px;border:1px solid rgba(0,0,0,.18);border-radius:7px;transition:all .13s;font-weight:500}
+.about-link:hover{background:#111;color:#fff;border-color:#111}
+
+/* FOOTER */
+footer{margin-top:auto;border-top:1px solid rgba(0,0,0,.07);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+footer p{font-size:12px;color:#aaa}
+footer a{font-size:12px;color:#aaa;text-decoration:none}
+footer a:hover{color:#111}
+
+@media(max-width:520px){
+  .about-inner{flex-direction:column;gap:1.25rem}
+  .hero{padding:2.5rem 1.25rem 2rem}
+  .games-section{padding:0 1.25rem 3rem}
+  .about{padding:2.5rem 1.25rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Healthcare Executive Games <span>by Jonathan Milton</span></a>
+</nav>
+
+<section class="hero">
+  <h1>Test your instincts.<br>See what survives your exit.</h1>
+  <p>Simulations for healthcare leaders. Each game puts you inside a real operational scenario and asks the questions that separate effective executives from ineffective ones.</p>
+</section>
+
+<section class="games-section">
+  <div class="section-label">Games</div>
+  <div class="games-grid">
+
+    <a href="games/interim-healthcare-executive.html" class="game-card">
+      <div class="game-tag new">New</div>
+      <p class="game-title">Interim Healthcare Executive</p>
+      <p class="game-desc">You have 8 moves. Diagnose the system, build structural anchors, and survive the immune response before your mandate runs out.</p>
+      <div class="game-meta">
+        <span class="game-detail">2 scenarios &middot; ~20 min</span>
+        <span class="play-btn">Play &rarr;</span>
+      </div>
+    </a>
+
+    <div class="game-card soon">
+      <div class="game-tag">Coming soon</div>
+      <p class="game-title">Map the Informal Power Network</p>
+      <p class="game-desc">The org chart shows you who has authority. This game shows you who actually has power. They're rarely the same person.</p>
+      <div class="game-meta">
+        <span class="game-detail">In development</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <h2>Jonathan Milton</h2>
+      <p>Healthcare Operational Turnaround | Interim &amp; Fractional Executive | Embedded Leadership.</p>
+      <p>These games are built from the same diagnostic framework I use in actual engagements — mapping informal power, reading institutional resistance, and building structural change that holds after I leave. If you're a healthcare leader, an aspiring executive, or someone trying to understand why organizations behave the way they do, you're in the right place.</p>
+      <div class="about-links">
+        <a href="https://inflectionhealthpartners.com" target="_blank" rel="noopener" class="about-link">Inflection Health Partners</a>
+        <a href="https://jonathanmilton.substack.com" target="_blank" rel="noopener" class="about-link">Substack</a>
+        <a href="https://www.linkedin.com/in/jonathanzmilton" target="_blank" rel="noopener" class="about-link">LinkedIn</a>
+        <a href="https://x.com/j_mltn" target="_blank" rel="noopener" class="about-link">X</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Jonathan Milton. All rights reserved.</p>
+  <a href="https://inflectionhealthpartners.com" target="_blank" rel="noopener">inflectionhealthpartners.com</a>
+</footer>
+
+</body>
+</html>
