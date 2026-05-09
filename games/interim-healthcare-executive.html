@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interim Healthcare Executive</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:#111;background:#fff;padding:1.5rem 0;font-size:16px}
+.wrap{max-width:640px;margin:0 auto;padding:0 1.25rem}
+.screen{animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:24px;font-weight:700;margin-bottom:4px;letter-spacing:-.3px}
+.sub{font-size:15.5px;color:#555;margin-bottom:1.75rem;line-height:1.65}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.card{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:11px;padding:1.15rem 1.25rem;margin-bottom:.95rem}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.75rem}
+.sc-btn{padding:1rem 1.1rem;text-align:left;border:1px solid rgba(0,0,0,.18);border-radius:11px;background:#fff;cursor:pointer;transition:all .14s;width:100%}
+.sc-btn:hover{background:#f6f6f4;border-color:rgba(0,0,0,.3)}
+.sc-btn.active{border:2px solid #3479CC;background:#F0F6FF}
+.sc-btn.played{opacity:.5}
+.pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.9rem}
+.pl-card{display:flex;gap:9px;align-items:flex-start;padding:.7rem .8rem;background:#f7f7f5;border-radius:9px}
+.av{width:30px;height:30px;border-radius:50%;background:#E0EAF7;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#2A5FA5;flex-shrink:0;letter-spacing:.03em}
+.bars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1rem;padding:.9rem 1.1rem;background:#f7f7f5;border-radius:11px;border:1px solid rgba(0,0,0,.08)}
+.bar-wrap{display:flex;flex-direction:column;gap:5px}
+.bar-lbl{font-size:13px;color:#555}
+.bar-track{height:6px;background:rgba(0,0,0,.09);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+.bar-val{font-size:15px;font-weight:700}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.9rem;padding:.65rem .85rem;background:#f7f7f5;border-radius:9px;border:1px solid rgba(0,0,0,.07)}
+.lpill{display:flex;align-items:center;gap:5px;font-size:13px;color:#555}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:4px;margin-bottom:8px;letter-spacing:.03em}
+.tag-e{background:#FEF0DC;color:#7A3E06}
+.tag-r{background:#FDEAEA;color:#8B1F1F}
+.tag-p{background:#DDF3EA;color:#0A5035}
+.ev-card{border-radius:11px;padding:1.15rem 1.25rem;margin-bottom:.95rem;border:1px solid rgba(0,0,0,.12)}
+.ev-title{font-size:18px;font-weight:700;margin-bottom:.45rem;letter-spacing:-.15px}
+.ev-text{font-size:15.5px;line-height:1.78}
+.out-box{background:#f7f7f5;border-radius:11px;padding:.95rem 1.15rem;margin-bottom:.95rem;border:1px solid rgba(0,0,0,.08)}
+.out-lbl{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#999;margin-bottom:7px}
+.out-text{font-size:15px;line-height:1.72}
+.ins-box{border-left:3px solid #8B84E0;padding:.7rem 1rem;background:#EEEDFB;border-radius:0 9px 9px 0;margin-top:.8rem}
+.ins-text{font-size:15px;color:#3A3285;line-height:1.65}
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:.95rem}
+.ch-btn{padding:11px 14px;text-align:left;font-size:14px;border:1px solid rgba(0,0,0,.18);border-radius:10px;background:#fff;color:#111;cursor:pointer;line-height:1.55;transition:all .13s;display:flex;align-items:flex-start;gap:9px}
+.ch-btn:hover{background:#f5f5f3;border-color:rgba(0,0,0,.3)}
+.ch-num{display:inline-flex;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.07);font-size:11px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;color:#999}
+.btn{padding:10px 20px;font-size:14px;border:1px solid rgba(0,0,0,.2);border-radius:9px;background:#fff;color:#111;cursor:pointer;font-weight:600;transition:background .13s}
+.btn:hover{background:#f5f5f3}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:.6rem}
+.end-hdr{border-radius:11px;padding:1.3rem 1.4rem;margin-bottom:.95rem}
+.end-tier{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:5px}
+.end-title{font-size:22px;font-weight:700;margin-bottom:.5rem;letter-spacing:-.2px}
+.end-body{font-size:15.5px;line-height:1.75;margin-bottom:.7rem}
+.end-stats{font-size:13px;opacity:.72}
+.cont-track{position:relative;height:8px;background:linear-gradient(to right,#D94040,#C47A10,#18916A);border-radius:4px;margin:10px 0 7px}
+.cont-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:#fff;border:2.5px solid #111;box-shadow:0 1px 5px rgba(0,0,0,.22);transition:left .7s cubic-bezier(.4,0,.2,1)}
+.cont-lbls{display:flex;justify-content:space-between;font-size:13px;color:#999}
+.mv-row{display:flex;gap:11px;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
+.mv-row:last-child{border-bottom:none}
+.mv-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.mv-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.mv-choice{font-size:13px;color:#555;line-height:1.5}
+.dots{display:flex;gap:4px;align-items:center}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.14)}
+.dot.done{background:#18916A}
+.dot.active{background:#3479CC}
+.turn-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+</style>
+</head>
+<body>
+<div class="wrap"><div id="game"></div></div>
+<script>
+// Beehiiv integration
+const EMAIL_ENDPOINT='https://api.beehiiv.com/v2/publications/pub_a10a2657-e4b6-4743-903e-ee2e2661a27a/subscriptions';
+const BEEHIIV_API_KEY='YOUR_NEW_API_KEY'; // replace after revoking old key
+
+// Best answer positions — Mercy: 2,4,1,3,2,4,3,1 | Westview: 3,1,4,2,4,2,1,3
+// No position appears more than twice per scenario as the best answer.
+
+const SC=[
+{
+  id:'mercy',
+  name:'Mercy Regional Medical',
+  tagline:'Community hospital. Agency spend crisis. Deferred accountability.',
+  context:"A 280-bed community hospital. Census is down, and agency nurse spend has ballooned to $2.4M over budget — an unusually severe situation that's rattled the board and made this engagement possible. Two department heads haven't spoken in six months. You have 8 moves before your contract is reviewed.",
+  players:[
+    {name:'Karen',role:'CNO',desc:"18-year veteran. Protects her nurses, including those who shouldn't be protected. Has been waiting for someone to ask the right questions."},
+    {name:'Dr. Vargas',role:'CMO',desc:'Gifted clinician, indifferent administrator. Respects competence above rank. Will not be managed.'},
+    {name:'Marcus',role:'CFO',desc:'Wants the numbers fixed. Supports anything with a clear ROI. Indifferent to culture.'},
+    {name:'Diane',role:'HR Director',desc:"Has shielded three long-tenured underperformers for years. Weaponizes process. Activated by anyone who threatens the status quo."},
+    {name:'Tony',role:'Charge RN, nights',desc:'Informal leader. Staff trust him completely. No one in the C-suite knows his name.'},
+  ],
+  events:[
+    {tag:'e',title:'Day one',
+      text:"Marcus hands you a 40-page financial report. Agency nurse spend is $2.4M over budget. Karen walks you through the floors. She's proud of her team. You notice two nurses sleeping in the break room at 10am. They're not on break.",
+      choices:[
+        {text:'Focus on the financials with Marcus first. Build the quantitative case.',e:{m:6,i:5,n:0},
+          out:"Marcus becomes an early ally and you have clean data. But word travels fast. Clinical staff assume this is a cost-cutting engagement, and that assumption will shape every conversation you have for the next three weeks.",
+          ins:'Where you start signals what you value. Every first move is read by the whole system.'},
+        {text:'Ask Karen about staffing patterns and overtime data before saying anything else.',e:{m:10,i:0,n:0},
+          out:"Karen opens up. She's been quietly covering for two nurses gaming the schedule for two years. She's relieved someone finally asked instead of accused. She gives you names, dates, and documentation she's been sitting on.",
+          ins:'Curiosity opens doors that confrontation closes. You learned more in one conversation than the previous administrator got in a month.'},
+        {text:'Schedule individual meetings with each department head to introduce yourself before taking any action.',e:{m:4,i:0,n:0},
+          out:"You're received politely. People tell you what they think you want to hear. Two weeks pass. The scheduling problem is still running. You've built no intelligence and spent political time you didn't have.",
+          ins:'A listening tour without a diagnostic frame produces pleasantness, not information.'},
+        {text:'Flag the sleeping nurses to Karen directly. This has to stop.',e:{m:-5,i:14,n:0},
+          out:"Karen goes cold. She spends the rest of the day with Diane. You told her she's been failing at her job before you understood why — and now she's protecting herself instead of helping you. Diane knows there's friction on day one.",
+          ins:'The truth delivered before trust is built becomes a threat. Timing is part of the diagnosis.'},
+      ]},
+    {tag:'r',title:'The warning',
+      text:"Diane stops by your office. \"I want to make sure you're aware of our HR processes before you start talking to staff. We've had people come in before and create liability.\" She's polite. She's drawing a perimeter.",
+      choices:[
+        {text:"Tell her your mandate comes from the board and you'll operate accordingly.",e:{m:-8,i:26,n:0},
+          out:"Diane makes three phone calls before end of day. By morning, four department heads have been told you're adversarial. You haven't done anything substantive yet and you're already inside a defensive coalition that'll cost you the next three turns to unwind.",
+          ins:"Positional authority is the weakest card to play first. It activates resistance at full force before you've built anything worth protecting."},
+        {text:"Tell her you appreciate the heads-up and ask her to send you the relevant HR policies to review.",e:{m:2,i:4,n:0},
+          out:"Diane's satisfied and sends a 34-page policy document. You've neutralized the surface interaction without learning anything from it. She interprets your compliance as weakness and tests the boundary again within a week.",
+          ins:'Apparent compliance that signals passivity invites escalation. Diane needed to understand you, not manage you.'},
+        {text:"Assure her you'll work within process, then go find Tony on the floor that afternoon.",e:{m:8,i:9,n:0},
+          out:"You say the right thing and immediately do the other thing. Tony tells you everything about the scheduling manipulation. Diane notices you went to the floor the same afternoon you promised to work within process. She starts keeping notes.",
+          ins:"You can't avoid the immune system. You can only manage where it spends its energy."},
+        {text:'Acknowledge the concern, then ask what liability specifically looked like in those prior situations.',e:{m:6,i:-10,n:0},
+          out:"Diane expected resistance. Your curiosity destabilizes her script. She spends 20 minutes describing two prior engagements that genuinely created HR problems. You learn what not to do, and you learn that Diane's got institutional memory worth having.",
+          ins:"The immune system's first move is almost always a warning. Treat it as data before you treat it as obstruction."},
+      ]},
+    {tag:'p',title:'Tony finds you',
+      text:"Tony catches you between meetings. \"I know this probably isn't how this works, but can I just tell you what's actually happening on nights?\" He's not looking for credit. He just wants someone to know.",
+      choices:[
+        {text:"Listen completely. Take notes. Ask questions. Don't promise anything yet.",e:{m:14,i:0,n:0},
+          out:"Tony gives you the full picture: how the scheduling manipulation works, who's involved, and what would fix it. He's been watching this for two years. You now understand night shift operations better than anyone in the C-suite.",
+          ins:"The people closest to the work always know. They need to believe you can use the information without getting them burned."},
+        {text:"Thank Tony, tell him you'll look into it, and follow up through official channels.",e:{m:2,i:0,n:0},
+          out:"Tony nods and walks away. You've acknowledged him without using what he gave you. The scheduling problem persists for another three weeks. When you eventually surface the issue through official data, the window for the specific intervention Tony described has passed.",
+          ins:'Official channels are slow by design. Intelligence gathered informally has a short shelf life.'},
+        {text:'Listen, then bring what you learned directly to Karen.',e:{m:8,i:10,n:0},
+          out:"Karen's grateful and the information is useful. But by the next morning Tony's heard that his conversation went upstairs. He doesn't know you went to Karen specifically, but he goes quiet. The most valuable intelligence channel you had closes.",
+          ins:'Information given in confidence is a test. How you use it determines whether the channel stays open.'},
+        {text:"Ask Tony if he'd be willing to present his findings to the leadership team.",e:{m:-4,i:6,n:0},
+          out:"Tony came to you because you have authority and institutional protection. When you ask him to carry the risk that's yours to carry, he gives you a shorter, more guarded version of what he originally offered. He doesn't seek you out again.",
+          ins:"When someone brings you information informally, they're asking you to carry the institutional risk. The moment you hand it back to them, the channel closes."},
+      ]},
+    {tag:'e',title:'Dr. Vargas pushes back',
+      text:"You've proposed a shared care coordination huddle — 15 minutes each morning, nursing and physicians together to align on discharge plans and flag deteriorating patients early. Dr. Vargas sends an email explaining this duplicates existing rounds and that nursing staff aren't positioned to flag clinical concerns. He cc's the board liaison.",
+      choices:[
+        {text:'Route around him. Implement the huddle on nights where his influence is weakest and build evidence first.',e:{m:10,i:20,n:0},
+          out:"The night huddle works immediately. But Vargas hears about it and escalates to the board liaison, framing it as an executive ignoring physician input. You've built a performance node and a board-level problem at the same time.",
+          ins:'Every workaround creates momentum and cost simultaneously. Track both before you move.'},
+        {text:'Escalate to Marcus and frame the delay as a financial risk. Get him to pressure Vargas through the CFO channel.',e:{m:6,i:16,n:0},
+          out:"Marcus leans on Vargas, who complies visibly and disengages quietly. The huddle launches on schedule. Vargas sends a one-sentence response to every agenda item for the next four weeks. You've got a running protocol and a physician who's technically present and operationally absent.",
+          ins:'Compliance purchased through pressure is more fragile than agreement built through understanding.'},
+        {text:'Request 30 minutes with Vargas. Come with readmission data and two published studies on huddle outcomes.',e:{m:12,i:-5,n:0},
+          out:"Vargas wasn't expecting the literature. He tests you on one clinical concept and you hold your ground. He suggests two modifications that improve the protocol. It moves forward with his name attached, which makes it significantly harder for anyone else to resist.",
+          ins:"Clinicians respect demonstrated competence above positional authority. Your outsider status becomes an asset when you show you've done the work."},
+        {text:'Acknowledge his expertise, modify the proposal to position physicians as clinical leads in the huddle, resubmit.',e:{m:5,i:-8,n:0},
+          out:"Vargas becomes a reluctant but real ally. The huddle takes three more weeks to launch. When it does, it carries his institutional weight. When Karen tries to skip it during a busy stretch, Vargas is the one who insists it continue.",
+          ins:'The intervention that outlasts you is more valuable than the one that wins today.'},
+      ]},
+    {tag:'r',title:'The complaint',
+      text:"Two nurses have filed a complaint with HR stating your staffing analysis created a hostile work environment. Diane's handling it. She's drafted a memo to the board suggesting the engagement be paused pending review. You hear about the memo through Marcus before it reaches the board.",
+      choices:[
+        {text:'Contact the board liaison directly to get ahead of the memo.',e:{m:7,i:23,n:0},
+          out:"You win the immediate round. But you've visibly gone over Diane's head, and three people who were neutral have chosen a side. Karen distances herself slightly. The cost arrives over the next two turns.",
+          ins:"Going over someone's head is a move with a long half-life. Budget for what it costs later, not just what it wins now."},
+        {text:'Meet with the two nurses directly. Listen to the actual complaint without defense.',e:{m:7,i:-16,n:0},
+          out:"Both nurses expected defense or escalation. You do neither. One's genuinely afraid the analysis will cost her job. The other has a legitimate concern about how shift change data was collected. You incorporate it. Karen hears how the meeting went. Diane's memo loses its credibility before it reaches anyone.",
+          ins:"The complaint is almost never about what it says it's about. Get curious about what's underneath it."},
+        {text:'Ask Diane to keep you informed of the process and cooperate fully with the review.',e:{m:3,i:8,n:0},
+          out:"Diane runs a 12-day review. You cooperate fully. The complaint's found unsubstantiated. You've spent nearly two weeks on process management instead of the work, and Diane's learned that this tactic costs you time even when it doesn't cost you your mandate.",
+          ins:"Full cooperation with a bad-faith process isn't neutrality. It's subsidizing obstruction with your time."},
+        {text:"Go directly to Marcus with your data and make the financial case before the board sees the memo.",e:{m:6,i:-4,n:0},
+          out:"Marcus intercepts the memo. The immediate threat is neutralized. But the two nurses watched their concern get routed around rather than heard. Diane knows her move was blocked and begins working through a different channel.",
+          ins:"Neutralizing a threat isn't the same as resolving it. The underlying energy finds another outlet."},
+      ]},
+    {tag:'p',title:"Tony's model",
+      text:"Without being asked, Tony reorganized how the night shift handles scheduling gaps. He built a voluntary coverage system using a group chat. Agency calls on nights are down 41% over three weeks. It's running entirely on Tony's personal effort.",
+      choices:[
+        {text:'Use the data publicly in a board update to build momentum for your broader recommendations.',e:{m:11,i:10,n:0},
+          out:"The numbers land well with the board. Marcus is pleased. But Tony hears his work was presented upstairs without his name attached. He becomes less forthcoming. Karen notices the shift.",
+          ins:'Data extracted from the people who generated it is less powerful than data they feel ownership of.'},
+        {text:'Present the model to Karen as a template and ask her to formalize it across all shifts.',e:{m:9,i:5,n:0},
+          out:"Karen tries to replicate it on days. It doesn't work as well — the group-chat dynamic Tony built is specific to his relationships on nights. Karen produces a policy document that captures the form but not the function.",
+          ins:"A model that works because of who built it can't be copied without the person. Understand what's structural and what's relational before you try to scale it."},
+        {text:'Ask Tony what he needs to sustain it and let him design the formal structure himself.',e:{m:16,i:0,n:1},
+          out:"Tony designs something better than what you would have imposed. He builds in a backup coordinator role and a simple escalation path. Karen helps implement it. You've developed a leader and anchored a node at the same time.",
+          ins:'The best structures emerge from the people doing the work. Your job is to create the conditions and stay out of the way.'},
+        {text:"Document the model, propose a formal charge nurse designation for Tony with a pay upgrade, and anchor it in policy.",e:{m:18,i:4,n:1},
+          out:"Karen champions the pay upgrade. The model gets written into scheduling policy. Tony's system is now a position with formal authority, not a personal favor he's doing on his own time. The first real performance node is in place.",
+          ins:"A performance node becomes durable the moment it stops depending on one person's will to sustain it. Structure is how goodwill becomes policy."},
+      ]},
+    {tag:'e',title:'Your sponsor wavers',
+      text:"The board liaison calls. \"We're getting very mixed signals. Diane says the culture is deteriorating. Karen says you're the best thing that's happened here in years. Vargas won't return my calls. I need to know what's actually happening before the next board meeting.\"",
+      choices:[
+        {text:"Lead with the numbers. Agency spend down 41%, huddle compliance strong, staff satisfaction trending up.",e:{m:4,i:0,n:0},
+          out:"The liaison is reassured and has something for the next meeting. You've secured your mandate without preparing your sponsor for what's coming. He'll be surprised by the next thing Diane does.",
+          ins:"Winning the evaluation isn't the same as winning the engagement."},
+        {text:"Tell him you need more time and ask him to hold off the board for another month.",e:{m:2,i:8,n:0},
+          out:"The liaison is uncomfortable. He passes the ask along. Two board members interpret the request as a sign the engagement is in trouble. Diane hears about the delay request within 48 hours.",
+          ins:"Asking a sponsor to absorb your uncertainty on your behalf spends their capital, not yours."},
+        {text:'Ask him what he has heard specifically before saying anything.',e:{m:14,i:-4,n:0},
+          out:"He tells you things no one else has. Two board members have been in direct contact with Diane. One's on the finance committee and asking questions about the agency spend data. You now know exactly where the pressure is coming from.",
+          ins:'Even at the top, information is asymmetric. Listening before speaking is always the right first move.'},
+        {text:"Be direct. Name the resistance explicitly, tell him what you've built, and what's still at risk.",e:{m:10,i:0,n:0},
+          out:"The liaison expected defense or optimism. You give him a map of the terrain including the threats. He tells you that kind of honesty is exactly what the last three engagements lacked. He extends your operating window.",
+          ins:'Sponsors who understand the resistance become its first line of defense. Educate them before the resistance reaches them.'},
+      ]},
+    {tag:'p',title:'The exit',
+      text:"Your contract ends in two weeks. Karen's a genuine ally. Tony's model is running. Vargas is lukewarm but not hostile. Diane is quieter but not gone. Agency spend is down 38%. You have one move left.",
+      choices:[
+        {text:"Recommend Karen be given formal authority over nurse staffing decisions and make it a condition of your exit.",e:{m:14,i:0,n:1},
+          out:"The board approves it in your final meeting. Karen now has formal authority over work she's been doing informally for years. The gains are tied to a position, not to your presence. Diane can reorganize her approach but can't undo a board-approved authority change.",
+          ins:'The most powerful exit move is the one that makes your work structurally impossible to undo.'},
+        {text:"Schedule a final all-staff meeting to summarize what changed and thank the team publicly.",e:{m:7,i:6,n:0},
+          out:"The meeting is well received by the staff who were already with you. Diane uses the public forum to ask two pointed questions about process that you can't answer without undermining Karen. You leave on a high note with the floor and a slightly weakened handoff at the top.",
+          ins:'Public exits are visible to everyone, including your opponents. Know who is in the room before you hand them a microphone.'},
+        {text:"Write a comprehensive handoff document covering every diagnosis, every recommendation, every risk.",e:{m:5,i:0,n:0},
+          out:"The document is thorough. The board receives it well. Without a human champion explicitly accountable for each recommendation, most of it becomes institutional archaeology within four months.",
+          ins:'The work lives in people, not in documents. Documents are evidence of thinking. People are the vehicle.'},
+        {text:"Have an honest final conversation with Diane. Name what happened between you and offer a reset.",e:{m:6,i:-20,n:0},
+          out:"Diane is disarmed. She'd prepared for you to leave without acknowledging the conflict. You name it plainly and without accusation. The reset isn't warm, but it's real. She agrees not to actively work against Karen's expanded role.",
+          ins:"Sometimes the most important exit move is reducing the threat to what you built rather than celebrating what you did."},
+      ]},
+  ]
+},
+{
+  id:'westview',
+  name:'Westview Behavioral Health',
+  tagline:'Inpatient psych. Physician-administrator conflict. Mission weaponized by both sides.',
+  context:"A 120-bed inpatient behavioral health facility. Readmission rates are 30% above benchmark. Physician turnover is 40% annually. The medical director and COO have been in open conflict for 18 months. The system CEO brought you in as interim executive. You have 8 moves.",
+  players:[
+    {name:'Dr. Chen',role:'Medical Director',desc:"Gifted psychiatrist. Has watched three administrators fail. Uses patient care language to defend operational territory."},
+    {name:'Tonya',role:'COO',desc:"Has run operations here for four years. Believes physicians are the core problem. Builds top-down plans that land as impositions."},
+    {name:'Ray',role:'System CEO, your sponsor',desc:'Impatient. Has his own board pressure. Will support you until it costs him something.'},
+    {name:'Keisha',role:'Charge nurse, day shift',desc:'Ten years in this building. Skeptical of outside help. Deeply loyal to patients. Sees everything.'},
+    {name:'Dr. Osei',role:'Staff psychiatrist',desc:"Three years in. Updating his CV. His departure would signal to others that exit is the rational choice."},
+  ],
+  events:[
+    {tag:'e',title:'Two rooms, two versions',
+      text:"On day one you meet Dr. Chen and Tonya separately. Chen says administration interferes with clinical decisions and drives physicians away. Tonya says physicians ignore operational constraints and manufacture liability. They're describing the same 18 months with opposite interpretations.",
+      choices:[
+        {text:"Accept both accounts as partially valid and ask each person what they need from the other to function.",e:{m:5,i:3,n:0},
+          out:"Both Chen and Tonya give you a list. The lists are long, specific, and mostly incompatible. You've gathered information but also implicitly positioned yourself as a mediator between two people who don't actually want mediation yet.",
+          ins:"Asking people what they need before you understand the system sets expectations you can't meet. Diagnosis before prescription."},
+        {text:'Meet with Chen and Tonya together and ask each to name one thing the other does well.',e:{m:9,i:7,n:0},
+          out:"The room is uncomfortable for several minutes. Then Chen says Tonya runs a clean operation. Tonya says Chen's patient relationships are exceptional. Something small shifts. The conflict isn't resolved, but it's no longer entirely stable.",
+          ins:"Conflict is partly maintained by never speaking across it. You don't have to resolve it to make it less rigid."},
+        {text:'Find Keisha and Dr. Osei and ask what they actually observe day to day.',e:{m:14,i:0,n:0},
+          out:"Keisha describes three specific incidents in the past month where patients were readmitted within 72 hours due to unclear discharge instructions. Osei describes the exact moment he started updating his CV. You have a ground-level map that neither Chen nor Tonya possesses, and you have it on day one.",
+          ins:'The people caught between two fighting leaders see the clearest picture. Talk to them before you talk to anyone with a stake in the conflict.'},
+        {text:'Review the last six months of readmission data, incident reports, and physician exit interviews before drawing any conclusions.',e:{m:10,i:0,n:0},
+          out:"The data tells a third story. Neither Chen nor Tonya is fully right. The readmission spike is driven by a discharge planning process with no single owner. Social work, nursing, and psychiatry each assume someone else is managing it. You now have a target that bypasses the interpersonal conflict entirely.",
+          ins:"When two people are equally certain about the same situation, the real answer is usually in data neither of them has looked at."},
+      ]},
+    {tag:'r',title:'Chen draws a line',
+      text:"\"I want to be respectful,\" Dr. Chen says in your first one-on-one. \"But I've watched three administrators try to run clinical operations here. I'll cooperate with any review that stays on the operational side. If it crosses into clinical decision-making, I'll take that to the system medical board.\" He's calm. He means it.",
+      choices:[
+        {text:'"That\'s a fair boundary. Help me understand where the line sits from your perspective."',e:{m:12,i:-10,n:0},
+          out:"Chen spends 30 minutes explaining his framework. In doing so he reveals three operational problems he's been unable to get Tonya to address: a discharge checklist that's incomplete, a case review process with no protected time, and a credentialing backlog leaving two positions unfilled for eight months. The boundary he drew has become a map.",
+          ins:"When someone draws a line, they're also showing you what they're protecting. That's worth more than whatever you would have said next."},
+        {text:"Acknowledge his experience with prior administrators and ask what they did wrong.",e:{m:7,i:3,n:0},
+          out:"Chen gives you a detailed account of three failed engagements. It's genuinely useful. It also takes 45 minutes and signals to Chen that his approval is something you're seeking. He becomes slightly more guarded in subsequent meetings.",
+          ins:"Asking someone to narrate how others failed before you demonstrate what's right isn't a substitute for competence. Show rather than ask."},
+        {text:'Tell him your focus is operational, not clinical, and move forward.',e:{m:4,i:0,n:0},
+          out:"Chen accepts this cordially. You've neutralized the warning without learning anything from it. The underlying tension is fully intact.",
+          ins:'Defusing a warning without understanding it only defers the conflict.'},
+        {text:"Tell him the readmission rate's being driven by a discharge planning gap. That's operational. You need his help.",e:{m:14,i:10,n:0},
+          out:"Chen hadn't expected that level of specificity. He pushes back on one point, concedes two others, and asks to see the data. Tonya hears about the meeting and wants to know what you told him. You now have both of their attention simultaneously — leverage or crossfire.",
+          ins:'Specificity cuts through defensiveness faster than reassurance. Come with the data before you come with the ask.'},
+      ]},
+    {tag:'p',title:"Osei's window",
+      text:"Dr. Osei finds you between meetings. \"I've been here three years. I know what's broken. Nobody has ever actually asked me.\" He's not angry. He's tired. He has 15 minutes.",
+      choices:[
+        {text:"Tell him you hear his frustration and you'll do your best to address it.",e:{m:2,i:0,n:0},
+          out:"Osei nods politely. He's heard variations of this from three prior administrators. You've responded to the emotional register of the conversation and missed the specific content. He updates his CV that evening.",
+          ins:"Validating someone's frustration without engaging its specific content is a form of dismissal that feels like empathy."},
+        {text:'Share your working hypothesis about the discharge planning gap and see if he confirms it.',e:{m:10,i:0,n:0},
+          out:"Osei confirms two parts and corrects one. The discharge gap is real, but it's downstream of a handoff problem between psychiatry and social work that you'd mislocated. The correction is more useful than the confirmation.",
+          ins:'Sharing a working hypothesis invites correction. Correction is more valuable than confirmation.'},
+        {text:'Ask him to write up his observations so you have something concrete to act on.',e:{m:-3,i:5,n:0},
+          out:"Osei pauses. He came to you for a conversation, not to produce a document with his name on it in a place where paper trails get used later. He gives you a guarded, abbreviated version of what he'd been prepared to say and doesn't seek you out again.",
+          ins:"Asking someone to formalize what they offered informally only makes sense when the organization rewards documentation over action. Here, you're asking them to take on risk for your benefit, not theirs."},
+        {text:'Listen. Then ask: what would have to change for you to want to stay?',e:{m:14,i:0,n:0},
+          out:"Osei names two things: a protected weekly case review where psychiatrists can consult on complex patients without it becoming a formal liability event, and a credentialing process that adds four hours to his week and produces nothing useful. Both are within your mandate. He agrees to stay through the engagement.",
+          ins:'Retention is almost always about specific friction, not general culture. Find the friction.'},
+      ]},
+    {tag:'e',title:"Tonya's plan",
+      text:"Tonya's drafted a nursing performance improvement plan without consulting Keisha or anyone on the floor. It targets real problems. It's also written entirely from above. She wants your endorsement before it goes to staff.",
+      choices:[
+        {text:'Suggest Tonya pilot the plan on one unit before rolling it out facility-wide.',e:{m:8,i:4,n:0},
+          out:"Tonya agrees. The pilot unit happens to be Keisha's. Keisha makes it work through sheer professionalism while privately resenting that she wasn't consulted. The pilot shows positive results. Tonya rolls it out unchanged. The resentment is now systemic.",
+          ins:"A pilot that doesn't include the people doing the work in its design produces results that look like validation and function like extraction."},
+        {text:"Tell Tonya the diagnosis is right but the plan'll struggle without input from the people implementing it. Offer to run a redesign session with Keisha.",e:{m:10,i:7,n:0},
+          out:"Tonya resists initially, then agrees. Keisha identifies two metrics that are unmeasurable in practice and adds three changes that make the plan workable. Tonya's surprised it improved. Keisha's surprised Tonya incorporated the feedback. Something small shifts between them.",
+          ins:"Plans fail not because the diagnosis is wrong but because the people implementing them had no hand in building them."},
+        {text:"Suggest Tonya move forward under her own authority without your name attached.",e:{m:7,i:-5,n:0},
+          out:"Tonya proceeds. The plan lands about as well as it would have with your endorsement. Your neutrality is preserved and you retain the ability to facilitate a revision later.",
+          ins:'Preserving your neutrality costs you influence over the immediate outcome. Sometimes that is the right trade.'},
+        {text:'Endorse it. Tonya is your closest operational ally and you need her.',e:{m:4,i:15,n:0},
+          out:"Tonya's grateful. The plan goes out. Keisha reads it and her skepticism of outside help calcifies into something harder. She becomes politely uncooperative for the rest of the engagement.",
+          ins:'Every alliance has a cost. Know what you are paying before you agree to the terms.'},
+      ]},
+    {tag:'r',title:'Ray gets impatient',
+      text:"Ray calls. \"I brought you in eight weeks ago. The board's asking me questions I can't answer. I need something I can point to at the next meeting.\" He's not threatening your mandate yet. He's telling you he's about to be threatened.",
+      choices:[
+        {text:"Reassure him things are progressing well and ask for another 30 days before any board updates.",e:{m:3,i:10,n:0},
+          out:"Ray agrees reluctantly. When the board asks him for an update at the next meeting, he has nothing specific to say. Two board members conclude the engagement is drifting. Diane hears about it within a week.",
+          ins:"Buying time without giving your sponsor something to stand on leaves them exposed. Their exposure becomes yours."},
+        {text:"Give him the full picture: genuine progress in two areas, real resistance in one, timeline is tight.",e:{m:8,i:0,n:0},
+          out:"Ray respects the honesty. He's also visibly anxious. You've transferred some of your uncertainty to your sponsor at a moment when he's already under pressure. He supports you but asks for a written summary before the board meeting.",
+          ins:"Honesty with a sponsor is right. Calibrate how much uncertainty they can absorb without destabilizing your mandate."},
+        {text:'Give him two specific data points showing measurable change and what comes next.',e:{m:10,i:0,n:0},
+          out:"Ray has ammunition for the meeting and leaves you alone for a few more weeks. You've protected your mandate without learning anything about the specific threat behind the call.",
+          ins:"Sponsors need ammunition for their own battles. Giving them data keeps your mandate alive long enough to finish the work."},
+        {text:'Ask Ray what questions the board is actually asking.',e:{m:14,i:0,n:0},
+          out:"Ray tells you two board members are pushing to bring in a national management firm. One has an existing relationship with them. You now understand the actual threat and can address it directly rather than producing generic progress metrics.",
+          ins:"Your sponsor's political situation is part of your operating environment. Know it before you plan your next move."},
+        {text:"Tell Ray exactly what the resistance will look like over the next three turns and what you need him to do when it arrives.",e:{m:0,i:0,n:0},stateDep:true,
+          out:'__sd__',ins:'__sd__'},
+      ]},
+    {tag:'p',title:'The discharge gap',
+      text:"You've confirmed the root cause of the readmission spike: discharge planning ownership is split between nursing, social work, and psychiatry with no single point of accountability. Every patient falls through a gap that's explicitly nobody's responsibility. Chen and Tonya both agree this is the problem. Neither will own the fix.",
+      choices:[
+        {text:'Build a shared protocol that all three departments sign off on.',e:{m:9,i:0,n:0},
+          out:"The protocol is well-constructed. Compliance becomes inconsistent within six weeks. Without a person accountable for maintaining it, each department gradually reverts to previous patterns.",
+          ins:'A protocol without a steward is a document waiting to be ignored.'},
+        {text:'Create a discharge coordination role and propose Keisha for it with a pay upgrade.',e:{m:18,i:5,n:1},
+          out:"Keisha accepts. She brings ten years of nursing credibility and a working relationship with social work that Tonya never built. Within three weeks, discharge planning has a single accountable owner. The readmission rate begins to move.",
+          ins:"The most powerful structural fix is often giving an informal leader formal authority for work they were already doing without credit or protection."},
+        {text:'Facilitate a working group with representatives from all three departments to design the solution together.',e:{m:10,i:3,n:0},
+          out:"The working group produces a reasonable plan over four sessions. The design is solid. Implementation accountability is still diffuse because the group produced a shared document rather than a single owner. The readmission rate improves marginally.",
+          ins:'Collaborative design without a designated steward produces ownership of the idea but not the outcome.'},
+        {text:'Present the gap analysis to Ray and let him mandate a solution from above.',e:{m:4,i:17,n:0},
+          out:"Ray mandates a solution at the next leadership meeting. Chen and Tonya comply technically. The structural tension that produced the gap is now harder to address because it's been driven below the surface.",
+          ins:'A solution handed down from authority can solve a symptom and harden the underlying condition at the same time.'},
+      ]},
+    {tag:'r',title:'The back channel',
+      text:"Keisha tells you that both Chen and Tonya have independently contacted board members in the last week. Chen says you're enabling administrative overreach into clinical territory. Tonya says you're too deferential to physicians. They disagree on everything except that you're the problem.",
+      choices:[
+        {text:'Request a joint meeting with Chen, Tonya, and Ray. Put the conflict on the table explicitly.',e:{m:14,i:-10,n:0},
+          out:"The meeting is uncomfortable. Ray's surprised by how openly the conflict surfaces. Chen and Tonya each say things they've been holding for months. The board contacts stop. The conflict is now in the room instead of running through back channels.",
+          ins:"Conflict brought into the room is more manageable than conflict running through back channels. The goal isn't comfort. It's visibility."},
+        {text:"Meet separately with Chen and Tonya and tell each of them that you know they contacted the board.",e:{m:8,i:6,n:0},
+          out:"Both are surprised you know. Chen becomes more guarded. Tonya becomes more cooperative. You've signaled awareness without creating a confrontation. The board contacts slow but don't stop.",
+          ins:"Demonstrating awareness without acting on it tells people you know what they're doing and are choosing to manage rather than confront. That signal cuts in both directions."},
+        {text:'Brief Ray on the full picture before the board hears a one-sided version.',e:{m:9,i:0,n:0},
+          out:"Ray handles the board contacts. Your mandate is protected. But Chen and Tonya each feel outmaneuvered. Trust with both decreases slightly and stays lower for the rest of the engagement.",
+          ins:"Preempting the narrative protects your mandate. It doesn't resolve the conflict that generated it."},
+        {text:'Let it play out. The board will see through one-sided accounts.',e:{m:-6,i:17,n:0},
+          out:"The board doesn't automatically see through it. Two board members call Ray. Your operating scope is narrowed for the final two turns.",
+          ins:'Doing nothing is also a choice. Name it as such, and account for the cost.'},
+      ]},
+    {tag:'p',title:'The exit',
+      text:"Keisha's discharge coordination role has been running for five weeks. Osei's agreed to stay. Readmissions are down 19%. Chen is cautious but no longer hostile. Tonya is a genuine ally. You have one move.",
+      choices:[
+        {text:"Write a detailed transition memo outlining every structural change made and who's accountable for maintaining each one.",e:{m:5,i:0,n:0},
+          out:"The memo is thorough and accurate. Ray receives it positively. Within three months, two of the four accountability assignments have quietly shifted as personnel and priorities change.",
+          ins:"A transition memo is a photograph. It captures what existed at one moment. Without people who own the commitments in it, it ages quickly."},
+        {text:'Facilitate a final session between Chen and Tonya to produce shared operating agreements.',e:{m:9,i:-7,n:0},
+          out:"They produce four agreements. Two are substantive. Two are vague. But the act of making them together in front of a witness shifts something. They've now collaborated once, which means it's no longer categorically impossible.",
+          ins:"Written agreements matter less than the act of making them together. Witnessed collaboration changes a relationship even when the agreements themselves are imperfect."},
+        {text:"Recommend Keisha's role be made permanent and formally budgeted before you leave.",e:{m:14,i:0,n:1},
+          out:"The role gets funded in the next budget cycle before your contract ends. Keisha has structural authority for work she's been doing without it. If leadership turns over again, the role survives.",
+          ins:"Budget is the language of permanence inside a bureaucracy. If it's not budgeted, it's not real."},
+        {text:"Give Osei a direct ask: stay two more years and help build what we've started.",e:{m:13,i:0,n:1},
+          out:"Osei agrees. His staying will signal to the other physicians that exit isn't the only rational choice here. That signal is worth more than any structural document.",
+          ins:'The person who stays is the strategy. Everything else is scaffolding.'},
+      ]},
+  ]
+}
+];
+
+const S={idx:null,prev:null,played:[],turn:0,mom:40,imm:20,nodes:0,chose:false,log:[],over:false,emailDone:false};
+
+const pct=v=>Math.min(100,Math.max(0,Math.round(v)))+'%';
+const bc=v=>v>65?'#18916A':v>35?'#C47A10':'#D94040';
+const ic=v=>v<30?'#18916A':v<60?'#C47A10':'#D94040';
+const dc=e=>{const n=e.m-(e.i*.75);return n>7?'#18916A':n>0?'#C47A10':'#D94040'};
+const av=n=>n.replace('Dr. ','').slice(0,2).toUpperCase();
+
+function payoff(){
+  const{mom:m,imm:im,nodes:n}=S;
+  const score=m-im+(n*22);
+  if(m<=10||im>=90)return{tier:'Mandate revoked',color:'#8B1F1F',bg:'#FDEAEA',verdict:"The resistance outlasted your mandate. The board ended the engagement before you could finish. What you built is real but unanchored, and without structural protection most of it won't last.",pct:4};
+  if(score>=58&&n>=2)return{tier:'Contract extended',color:'#0A5035',bg:'#DDF3EA',verdict:"The board re-engages you. Your results were specific, measurable, and tied to structural changes already running without your presence. At least one board member mentions your name to a colleague at another system.",pct:91};
+  if(score>=32&&n>=1)return{tier:'Engagement closed — referral likely',color:'#1A4F8A',bg:'#E8F2FC',verdict:"The board closes the engagement with genuine appreciation. The results are real but partial. The structural anchors you placed will protect some of what you built. A referral follows within six months.",pct:66};
+  if(score>=8)return{tier:'Engagement closed',color:'#7A3E06',bg:'#FEF0DC',verdict:"The board closes the engagement without re-engagement. There were gains, but the resistance outlasted too much of the momentum. They're uncertain what they got for the investment.",pct:36};
+  return{tier:'Not re-engaged',color:'#8B1F1F',bg:'#FDEAEA',verdict:"The board doesn't re-engage. The immune system won more rounds than you did. What structural change remains may hold, but there isn't enough of it.",pct:14};
+}
+
+function patternAnalysis(sc){
+  const log=S.log;
+  const avgI=log.reduce((a,l)=>a+l.e.i,0)/log.length;
+  const strongMoves=log.filter(l=>l.e.m>=12).length;
+  const costlyMoves=log.filter(l=>l.e.i>=14).length;
+  if(avgI>8&&strongMoves<3)return"Your instinct under pressure is to move fast and push through resistance rather than route around it. That works in organizations with weak immune systems. In entrenched ones, it accelerates the coalition against you.";
+  if(S.mom<35&&S.nodes<1)return"Your moves were cautious and politically safe — which kept resistance manageable but never generated the momentum needed to build structural change. In a real engagement, this reads as competent presence without lasting impact.";
+  if(strongMoves>=4&&costlyMoves<=2)return"You read the informal power structure well and built momentum without triggering disproportionate resistance. The moves that worked were diagnostic before they were interventional — curiosity first, action second.";
+  if(S.nodes>=2&&S.mom>50)return"You built structural anchors and maintained momentum. The engagements that end this way are durable — not because of what you did, but because of who you left with formal authority to continue it.";
+  return"Your decision pattern shows real instincts for the work alongside moments where conventional leadership thinking took over. The gap between where you scored well and where you didn't is almost always the same place: informal power.";
+}
+
+function render(){
+  const g=document.getElementById('game');
+  if(S.idx===null){menuR(g);return;}
+  if(S.over){endR(g);return;}
+  turnR(g);
+}
+
+function menuR(g){
+  g.innerHTML=`<div class="screen">
+    <h1>Interim Healthcare Executive</h1>
+    <p class="sub">You have 8 moves. Build structural anchors. Don't get neutralized.</p>
+    <div class="lbl">${S.played.length?'Choose your next engagement':'Choose an engagement'}</div>
+    <div class="sc-grid">
+      ${SC.map((s,i)=>{const d=S.played.includes(s.id),a=S.prev===i;
+        return`<button class="sc-btn${d?' played':''}${a?' active':''}" onclick="sel(${i})">
+          <p style="font-size:15px;font-weight:700;margin-bottom:4px">${s.name}</p>
+          <p style="font-size:13px;color:#666;line-height:1.5;margin-bottom:${d?'5px':'0'}">${s.tagline}</p>
+          ${d?'<p style="font-size:12px;color:#999">Played</p>':''}
+        </button>`;}).join('')}
+    </div>
+    ${S.prev!==null?`<div class="card">
+      <p style="font-size:15px;line-height:1.75;margin-bottom:1rem">${SC[S.prev].context}</p>
+      <div class="lbl">Key players</div>
+      <div class="pl-grid">
+        ${SC[S.prev].players.map(p=>`<div class="pl-card">
+          <div class="av">${av(p.name)}</div>
+          <div>
+            <p style="font-size:13px;font-weight:700;margin-bottom:1px">${p.name}</p>
+            <p style="font-size:12px;color:#666;margin-bottom:4px">${p.role}</p>
+            <p style="font-size:12px;color:#666;line-height:1.55">${p.desc}</p>
+          </div>
+        </div>`).join('')}
+      </div>
+      <button class="btn" onclick="go(${S.prev})">Begin engagement &rarr;</button>
+    </div>`:''}
+  </div>`;
+}
+
+function turnR(g){
+  const sc=SC[S.idx],ev=sc.events[S.turn],last=S.log[S.log.length-1];
+  const tl={e:'Situation',r:'Resistance',p:'Opening'};
+  const tc={e:'tag-e',r:'tag-r',p:'tag-p'};
+  const dots=sc.events.map((_,i)=>`<div class="dot${i<S.turn?' done':i===S.turn?' active':''}"></div>`).join('');
+  g.innerHTML=`<div class="screen">
+    <div class="bars">
+      <div class="bar-wrap"><div class="bar-lbl">Momentum</div><div class="bar-track"><div class="bar-fill" style="width:${pct(S.mom)};background:${bc(S.mom)}"></div></div><div class="bar-val">${Math.round(S.mom)}</div></div>
+      <div class="bar-wrap"><div class="bar-lbl">Resistance</div><div class="bar-track"><div class="bar-fill" style="width:${pct(S.imm)};background:${ic(S.imm)}"></div></div><div class="bar-val">${Math.round(S.imm)}</div></div>
+      <div class="bar-wrap"><div class="bar-lbl">Nodes built</div><div class="bar-track"><div class="bar-fill" style="width:${pct(S.nodes*50)};background:#18916A"></div></div><div class="bar-val">${S.nodes}/2</div></div>
+    </div>
+    <div class="legend">${sc.players.map(p=>`<div class="lpill"><div class="av" style="width:22px;height:22px;font-size:9.5px">${av(p.name)}</div><span>${p.name}, ${p.role}</span></div>`).join('')}</div>
+    ${last?`<div class="out-box">
+      <div class="out-lbl">What happened</div>
+      <p class="out-text">${last.out}</p>
+      ${last.ins?`<div class="ins-box"><p class="ins-text">${last.ins}</p></div>`:''}
+    </div>`:''}
+    <div class="ev-card">
+      <div class="turn-meta">
+        <span class="tag ${tc[ev.tag]||'tag-e'}">${tl[ev.tag]||'Situation'}</span>
+        <div style="display:flex;align-items:center;gap:8px"><div class="dots">${dots}</div><span style="font-size:12px;color:#999">Move ${S.turn+1} of 8</span></div>
+      </div>
+      <p class="ev-title">${ev.title}</p>
+      <p class="ev-text">${ev.text}</p>
+    </div>
+    ${!S.chose?`<div class="lbl">Your move</div><div class="choices">${ev.choices.map((c,i)=>`<button class="ch-btn" onclick="pick(${i})"><span class="ch-num">${i+1}</span><span>${c.text}</span></button>`).join('')}</div>`:`<div class="btn-row"><button class="btn" onclick="nxt()">Next &rarr;</button></div>`}
+  </div>`;
+}
+
+function endR(g){
+  const po=payoff(),sc=SC[S.idx];
+
+  const previewHTML=`
+    <div class="end-hdr" style="background:${po.bg}">
+      <p class="end-tier" style="color:${po.color}">${sc.name} &middot; Engagement complete</p>
+      <p class="end-title" style="color:${po.color}">${po.tier}</p>
+      <p class="end-body" style="color:${po.color}">${po.verdict}</p>
+      <p class="end-stats" style="color:${po.color}">Momentum ${Math.round(S.mom)} &middot; Resistance ${Math.round(S.imm)} &middot; Nodes ${S.nodes}/2</p>
+    </div>
+    <div class="card">
+      <div class="lbl" style="margin-bottom:10px">Where you landed</div>
+      <div class="cont-track"><div class="cont-marker" style="left:${po.pct}%"></div></div>
+      <div class="cont-lbls"><span>Not re-engaged</span><span>Contract extended</span></div>
+    </div>
+    <div class="card">
+      <div class="lbl" style="margin-bottom:10px">Move by move</div>
+      ${S.log.map((l,i)=>`<div class="mv-row"><div class="mv-dot" style="background:${dc(l.e)}"></div><div><p class="mv-title">Move ${i+1} &middot; ${sc.events[i].title}</p><p class="mv-choice">${l.choice}</p></div></div>`).join('')}
+    </div>`;
+
+  const gateHTML=`
+    <div class="card" style="border:1.5px solid rgba(0,0,0,.15)">
+      <div class="lbl" style="margin-bottom:6px">Your full diagnostic breakdown</div>
+      <p style="font-size:14.5px;line-height:1.7;color:#444;margin-bottom:1.1rem">Your decision pattern, the principle behind every move — yours and the ones you didn't take — and what your choices reveal about how you read informal power under pressure.</p>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <input id="em-input" type="email" placeholder="your@email.com" style="flex:1;padding:10px 13px;font-size:14px;border:1px solid rgba(0,0,0,.2);border-radius:8px;outline:none;font-family:inherit">
+        <button class="btn" onclick="submitEmail()" style="white-space:nowrap">Send my results &rarr;</button>
+      </div>
+      <p style="font-size:12px;color:#999">No spam. One email with your results.</p>
+    </div>`;
+
+  const fullResultsHTML=`
+    <div class="card" style="border-left:3px solid #18916A">
+      <div class="lbl" style="margin-bottom:8px">Your decision pattern</div>
+      <p style="font-size:15px;line-height:1.72;color:#111">${patternAnalysis(sc)}</p>
+    </div>
+    <div style="margin-bottom:.5rem">
+      <div class="lbl" style="margin-bottom:4px">All 8 principles</div>
+      <p style="font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6">The moves that worked are marked. The ones you didn't make are here too — in a real engagement, you only get to see the consequences of the path you chose.</p>
+      ${sc.events.map((ev,i)=>{
+        const playerChoice=S.log[i];
+        const bestChoice=ev.choices.filter(c=>!c.stateDep).reduce((best,c)=>{
+          const bScore=best.e.m-(best.e.i*.75)+(best.e.n||0)*10;
+          const cScore=c.e.m-(c.e.i*.75)+(c.e.n||0)*10;
+          return cScore>bScore?c:best;
+        },ev.choices.filter(c=>!c.stateDep)[0]);
+        const playerWasBest=playerChoice&&playerChoice.choice===bestChoice.text;
+        return`<div style="margin-bottom:.85rem;padding:.9rem 1rem;border-radius:10px;background:${playerWasBest?'#F0F9F5':'#f7f7f5'};border:1px solid ${playerWasBest?'rgba(24,145,106,.2)':'rgba(0,0,0,.08)'}">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+            <div style="width:7px;height:7px;border-radius:50%;background:${playerWasBest?'#18916A':'#C47A10'};flex-shrink:0"></div>
+            <p style="font-size:12px;font-weight:700;color:${playerWasBest?'#0A5035':'#7A3E06'}">Move ${i+1} &middot; ${ev.title}${playerWasBest?' &middot; your move':''}</p>
+          </div>
+          ${playerChoice&&!playerWasBest?`<p style="font-size:12px;color:#888;margin-bottom:6px;font-style:italic">You chose: ${playerChoice.choice}</p>`:''}
+          <div class="ins-box" style="margin-top:0"><p class="ins-text">${bestChoice.ins}</p></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  const replayHTML=`
+    <div class="btn-row" style="margin-top:.25rem">
+      ${SC.filter(s=>!S.played.includes(s.id)).length?`<button class="btn" onclick="back()">Play another engagement</button>`:''}
+      <button class="btn" onclick="rst()">Start over</button>
+    </div>`;
+
+  g.innerHTML=`<div class="screen">
+    ${previewHTML}
+    ${S.emailDone?fullResultsHTML:gateHTML}
+    ${S.emailDone?replayHTML:''}
+  </div>`;
+}
+
+function submitEmail(){
+  const input=document.getElementById('em-input');
+  const email=input?input.value.trim():'';
+  if(!email||!email.includes('@')){
+    if(input){input.style.borderColor='#D94040';input.focus();}
+    return;
+  }
+  const btns=document.querySelectorAll('.btn');
+  btns.forEach(b=>{if(b.textContent.includes('Send'))b.textContent='Sending...';});
+  const po=payoff();
+  const sc=SC[S.idx];
+  fetch(EMAIL_ENDPOINT,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer '+BEEHIIV_API_KEY
+    },
+    body:JSON.stringify({
+      email,
+      reactivate_existing:false,
+      send_welcome_email:true,
+      utm_source:'interim_healthcare_executive_game',
+      utm_medium:'game',
+      custom_fields:[
+        {name:'tier',value:po.tier},
+        {name:'score',value:String(Math.round(S.mom-S.imm+(S.nodes*22)))},
+        {name:'scenario',value:sc.name},
+        {name:'pattern',value:patternAnalysis(sc)},
+      ]
+    })
+  })
+  .then(r=>{
+    S.emailDone=true;render();
+  })
+  .catch(()=>{
+    S.emailDone=true;render();
+  });
+}
+
+function sel(i){S.prev=S.prev===i?null:i;render();}
+function go(i){Object.assign(S,{idx:i,prev:null,turn:0,mom:40,imm:20,nodes:0,chose:false,log:[],over:false,emailDone:false});if(!S.played.includes(SC[i].id))S.played.push(SC[i].id);render();}
+
+function pick(i){
+  const ev=SC[S.idx].events[S.turn],c=ev.choices[i];
+  let e=c.e,out=c.out,ins=c.ins;
+  if(c.stateDep){
+    if(S.mom>=55){
+      e={m:22,i:-12,n:0};
+      out="Ray listens without interrupting. You lay out the next three moves, how the resistance will respond to each one, and exactly what you need from him: don't absorb the framing coming from the resistance, hold the board off one more cycle, and back Keisha's role in the final meeting. Ray's quiet for a moment. \"Nobody's ever briefed me like this before.\" He becomes an active defender of the work for the remainder of the engagement.";
+      ins="A sponsor fully briefed before the resistance arrives is worth more than a sponsor managed after it does. This only works when you've built enough to make the briefing credible.";
+    } else {
+      e={m:-6,i:14,n:0};
+      out="You walk Ray through what's coming. He listens, but he doesn't have enough evidence yet that you know what you're doing. The specificity reads as anxiety rather than strategy. He calls the board liaison that afternoon to ask whether the engagement is on track.";
+      ins:"Telling a sponsor what's coming only works when you've built enough credibility for the prediction to land as competence rather than worry.";
+    }
+  }
+  S.mom=Math.min(100,Math.max(0,S.mom+e.m));
+  S.imm=Math.min(100,Math.max(0,S.imm+e.i));
+  if(e.n)S.nodes=Math.min(2,S.nodes+e.n);
+  S.log.push({choice:c.text,out,ins,e});
+  S.chose=true;
+  if(S.mom<=10||S.imm>=90)S.over=true;
+  render();
+}
+
+function nxt(){S.turn++;S.chose=false;if(S.turn>=SC[S.idx].events.length)S.over=true;render();}
+function back(){S.idx=null;S.prev=null;render();}
+function rst(){Object.assign(S,{idx:null,prev:null,played:[],turn:0,mom:40,imm:20,nodes:0,chose:false,log:[],over:false,emailDone:false});render();}
+
+render();
+</script>
+</body>
+</html>
